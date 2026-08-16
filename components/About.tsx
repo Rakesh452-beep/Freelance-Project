@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import SectionHeading from "@/components/SectionHeading";
+import CountUp from "@/components/CountUp";
 import { studioConfig } from "@/lib/config";
 import { ArrowRightIcon } from "@/components/icons";
 
@@ -12,14 +13,15 @@ const values = [
   { numeral: "III", label: "Personal touch", text: "You work directly with the founder — no middlemen." },
 ];
 
-const ledger = [
-  { value: "0", label: "Shoots delivered" },
-  { value: "0", label: "Happy clients" },
-  { value: "0", label: "Cinematic films" },
-  { value: "1", label: "Studio, one mind" },
-];
+type AboutStats = { shoots: number; clients: number; cinematic: number };
 
-export default function About() {
+export default function About({ stats }: { stats: AboutStats }) {
+  const ledger = [
+    { value: stats.shoots, label: "Shoots delivered", count: true },
+    { value: stats.clients, label: "Happy clients", count: true },
+    { value: stats.cinematic, label: "Cinematic films", count: true },
+    { value: 1, label: "Studio, one mind", count: false },
+  ];
   return (
     <section id="about" className="relative overflow-hidden bg-void py-28">
       <div className="aurora-faint pointer-events-none absolute inset-0" />
@@ -103,7 +105,9 @@ export default function About() {
               className="group border-b border-r border-hairline bg-panel/30 p-8 transition-colors hover:bg-panel/60"
             >
               <p className="font-display text-5xl font-extrabold">
-                <span className="text-gradient-blue">{item.value}</span>
+                <span className="text-gradient-blue">
+                  {item.count ? <CountUp value={item.value} /> : item.value}
+                </span>
               </p>
               <p className="mt-2 font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-ice-faint">
                 {item.label}

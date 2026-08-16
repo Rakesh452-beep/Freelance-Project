@@ -48,7 +48,7 @@ export default async function HomePage() {
         <SectionDivider variant="pixel" />
         <Testimonials />
         <SectionDivider variant="lens" />
-        <About />
+        <About stats={stats} />
         <SectionDivider variant="film" />
         <CtaBanner />
         <SectionDivider variant="pixel" />

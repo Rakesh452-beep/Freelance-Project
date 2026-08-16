@@ -7,6 +7,7 @@ import Link from "next/link";
 import { studioConfig } from "@/lib/config";
 import { CameraIcon, ChevronDownIcon } from "@/components/icons";
 import StrokeText from "@/components/StrokeText";
+import CountUp from "@/components/CountUp";
 
 type HeroStats = { shoots: number; clients: number; cinematic: number };
 
@@ -14,9 +15,9 @@ export default function Hero({ stats }: { stats: HeroStats }) {
   const sectionRef = useRef<HTMLElement>(null);
 
   const heroStats = [
-    { value: String(stats.shoots), label: "Shoots delivered" },
-    { value: String(stats.clients), label: "Happy clients" },
-    { value: String(stats.cinematic), label: "Cinematic films" },
+    { value: stats.shoots, label: "Shoots delivered" },
+    { value: stats.clients, label: "Happy clients" },
+    { value: stats.cinematic, label: "Cinematic films" },
   ];
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -117,7 +118,9 @@ export default function Hero({ stats }: { stats: HeroStats }) {
             {heroStats.map((stat) => (
               <div key={stat.label} className="border-l-2 border-electric/40 pl-4">
                 <p className="font-display text-4xl font-bold">
-                  <span className="text-gradient-blue">{stat.value}</span>
+                  <span className="text-gradient-blue">
+                    <CountUp value={stat.value} />
+                  </span>
                 </p>
                 <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-ice-faint">
                   {stat.label}
