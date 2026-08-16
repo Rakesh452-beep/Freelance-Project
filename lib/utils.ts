@@ -10,10 +10,6 @@ export function gmailComposeUrl(to: string): string {
   return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}`;
 }
 
-export function siteUrl(): string {
-  return process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-}
-
 export const FREE_TRIAL_WINDOW = { start: "2026-08-16", end: "2026-10-31" };
 
 export function freeTrialActive(now: Date = new Date()): boolean {

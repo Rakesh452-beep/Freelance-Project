@@ -1,7 +1,8 @@
 import nodemailer, { type Transporter } from "nodemailer";
 import { Resend } from "resend";
 import { studioConfig } from "@/lib/config";
-import { formatINR, siteUrl } from "@/lib/utils";
+import { formatINR } from "@/lib/utils";
+import { requestSiteUrl } from "@/lib/supabase-server";
 import type { Booking, Inquiry } from "@/lib/types";
 
 const gmailUser = process.env.GMAIL_USER;
@@ -136,7 +137,7 @@ export async function sendBookingAlert(booking: Booking): Promise<void> {
         <p><strong>${escapeHtml(booking.client_name)}</strong> · ${escapeHtml(booking.client_email)} · ${escapeHtml(booking.client_phone)}</p>
         ${bookingRows(booking)}
         <p>Status: ${escapeHtml(booking.payment_status)} / ${escapeHtml(booking.booking_status)}</p>
-        <p><a href="${siteUrl()}/admin">Open dashboard</a></p>
+        <p><a href="${await requestSiteUrl()}/admin">Open dashboard</a></p>
       </div>
     `,
   });
@@ -165,7 +166,7 @@ export async function sendBookingConfirmedEmail(booking: Booking): Promise<void>
         <p>Need anything? Just reply to this email.</p>
         <hr style="border:none;border-top:1px solid #ddd;margin:24px 0" />
         <p style="color:#555">After your event, we'd love to hear about your experience. Please review our work on our website:</p>
-        <p><a href="${siteUrl()}/review" style="background:#1a2a6c;color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:bold">Leave a review</a></p>
+        <p><a href="${await requestSiteUrl()}/review" style="background:#1a2a6c;color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:bold">Leave a review</a></p>
         <p style="color:#555">Thank you,<br/>${escapeHtml(studioConfig.name)}</p>
       </div>
     `,
@@ -181,7 +182,7 @@ export async function sendInquiryAlert(inquiry: Inquiry): Promise<void> {
         <h2>New contact message</h2>
         <p><strong>${escapeHtml(inquiry.name)}</strong> · ${escapeHtml(inquiry.email)}${inquiry.phone ? ` · ${escapeHtml(inquiry.phone)}` : ""}</p>
         <p>${escapeHtml(inquiry.message).replace(/\n/g, "<br/>")}</p>
-        <p><a href="${siteUrl()}/admin">Open dashboard</a></p>
+        <p><a href="${await requestSiteUrl()}/admin">Open dashboard</a></p>
       </div>
     `,
   });

@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase-server";
 import { checkRateLimit, clientIp } from "@/lib/rate-limit";
-import { siteUrl } from "@/lib/utils";
+import { requestSiteUrl } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
 
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 
   const supabase = await createClient();
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${siteUrl()}/admin/update-password`,
+    redirectTo: `${await requestSiteUrl()}/admin/update-password`,
   });
 
   if (error) {
