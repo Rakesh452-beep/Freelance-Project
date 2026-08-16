@@ -23,7 +23,8 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "It's Dhanunjay Three Lenses | Photography · Cinematography · Graphic Design",
+  metadataBase: new URL("https://dhananjayproject-rho.vercel.app"),
+  title: "Dhanunjay Three Lenses Studio | Photography · Cinematography · Graphic Design",
   description:
     "Dhanunjay Three Lenses Studio is a creative studio by Dhanunjay offering professional photography, cinematography, and graphic designing services. Book your shoot today.",
   keywords: [
