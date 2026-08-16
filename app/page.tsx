@@ -46,9 +46,9 @@ export default async function HomePage() {
         <SectionDivider variant="film" />
         <Portfolio />
         <SectionDivider variant="pixel" />
-        <About />
-        <SectionDivider variant="lens" />
         <Testimonials />
+        <SectionDivider variant="lens" />
+        <About />
         <SectionDivider variant="film" />
         <CtaBanner />
         <SectionDivider variant="pixel" />

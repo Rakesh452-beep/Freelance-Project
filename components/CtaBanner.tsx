@@ -29,7 +29,7 @@ export default function CtaBanner() {
         >
           <p className="flex items-center justify-center gap-3 font-mono text-[11px] font-bold uppercase tracking-[0.26em] text-electric">
             <span className="h-2 w-2 rounded-full bg-electric blink" />
-            {"// Limited dates each month"}
+            {"Limited dates each month"}
           </p>
 
           <h2 className="mx-auto mt-6 font-display text-5xl font-extrabold leading-[1.04] tracking-tight text-ice sm:text-7xl">

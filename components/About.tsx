@@ -27,7 +27,7 @@ export default function About() {
 
       <div className="relative mx-auto max-w-6xl px-5">
         <SectionHeading
-          index="03"
+          index="04"
           eyebrow="The studio"
           title="One person. Three lenses."
           description="A creative who treats every client's story as his own."
@@ -36,7 +36,7 @@ export default function About() {
         <div className="mt-16 grid items-center gap-16 lg:grid-cols-2">
           <div>
             <p className="flex items-center gap-3 font-mono text-[11px] font-bold uppercase tracking-[0.26em] text-electric">
-              <span className="text-gradient-blue">{"//"}</span> About me
+              About me
             </p>
             <h3 className="mt-5 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-ice sm:text-5xl">
               Hi, I&apos;m{" "}
@@ -114,7 +114,7 @@ export default function About() {
 
         <div className="mt-16">
           <p className="flex items-center gap-3 font-mono text-[11px] font-bold uppercase tracking-[0.26em] text-electric">
-            <span className="text-gradient-blue">{"//"}</span> How I work
+            How I work
           </p>
           <div className="mt-6 grid gap-px overflow-hidden rounded-2xl border border-hairline bg-hairline md:grid-cols-3">
             {values.map((value) => (

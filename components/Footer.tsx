@@ -61,7 +61,7 @@ export default function Footer() {
 
           <div>
             <h4 className="flex items-center gap-3 font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-electric">
-              <span className="text-gradient-blue">{"//"}</span> Find us
+              Find us
             </h4>
             <ul className="mt-6 space-y-5">
               <li className="flex items-start gap-3 text-sm text-ice-soft">

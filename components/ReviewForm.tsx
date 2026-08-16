@@ -95,7 +95,7 @@ export default function ReviewForm({
     <div className="relative">
       <p className="flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.26em] text-electric">
         <StarIcon className="h-3.5 w-3.5" />
-        {"// Leave a review"}
+        {"Leave a review"}
       </p>
       <h3 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-ice">
         {heading}

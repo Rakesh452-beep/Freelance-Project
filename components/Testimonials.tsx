@@ -59,7 +59,7 @@ export default function Testimonials() {
 
       <div className="relative mx-auto max-w-4xl px-5">
         <SectionHeading
-          index="04"
+          index="03"
           eyebrow="Kind words"
           title="What clients say"
           description="Only real reviews from real clients — no placeholder text. Yours could be the first."

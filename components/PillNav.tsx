@@ -47,6 +47,7 @@ const PillNav = ({
   const circleRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const tlRefs = useRef<gsap.core.Timeline[]>([]);
   const activeTweenRefs = useRef<(gsap.core.Tween | null)[]>([]);
+  const prevActiveRef = useRef<string | null>(null);
   const logoImgRef = useRef<HTMLImageElement | null>(null);
   const logoTweenRef = useRef<gsap.core.Tween | null>(null);
   const hamburgerRef = useRef<HTMLButtonElement | null>(null);
@@ -151,6 +152,36 @@ const PillNav = ({
     return () => window.removeEventListener("resize", onResize);
   }, [items, ease, initialLoadAnimation]);
 
+  useEffect(() => {
+    const prev = prevActiveRef.current;
+    prevActiveRef.current = activeHref ?? null;
+    if (prev === activeHref) return;
+
+    const snap = (href: string | null, active: boolean) => {
+      const idx = items.findIndex((item) => item.href === href);
+      if (idx === -1) return;
+      const circle = circleRefs.current[idx];
+      if (!circle?.parentElement) return;
+      const pill = circle.parentElement as HTMLElement;
+      const height = pill.getBoundingClientRect().height;
+      const label = pill.querySelector(".pill-label");
+      const white = pill.querySelector(".pill-label-hover");
+
+      if (active) {
+        gsap.to(circle, { scale: 0.85, xPercent: -50, duration: 0.35, ease, overwrite: "auto" });
+        if (label) gsap.to(label, { y: -(height + 8), duration: 0.35, ease, overwrite: "auto" });
+        if (white) gsap.to(white, { y: 0, opacity: 1, duration: 0.35, ease, overwrite: "auto" });
+      } else {
+        gsap.to(circle, { scale: 0, xPercent: -50, duration: 0.25, ease, overwrite: "auto" });
+        if (label) gsap.to(label, { y: 0, duration: 0.25, ease, overwrite: "auto" });
+        if (white) gsap.to(white, { y: height + 12, opacity: 0, duration: 0.25, ease, overwrite: "auto" });
+      }
+    };
+
+    snap(prev, false);
+    snap(activeHref ?? null, true);
+  }, [activeHref, items, ease]);
+
   const handleEnter = (i: number) => {
     const tl = tlRefs.current[i];
     if (!tl) return;
@@ -163,6 +194,17 @@ const PillNav = ({
   };
 
   const handleLeave = (i: number) => {
+    const circle = circleRefs.current[i];
+    const pill = circle?.parentElement as HTMLElement | null;
+    if (pill?.classList.contains("is-active")) {
+      const height = pill.getBoundingClientRect().height;
+      gsap.set(circle, { scale: 0.85, xPercent: -50 });
+      const label = pill.querySelector(".pill-label");
+      const white = pill.querySelector(".pill-label-hover");
+      if (label) gsap.set(label, { y: -(height + 8) });
+      if (white) gsap.set(white, { y: 0, opacity: 1 });
+      return;
+    }
     const tl = tlRefs.current[i];
     if (!tl) return;
     activeTweenRefs.current[i]?.kill();

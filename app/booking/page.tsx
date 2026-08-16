@@ -49,7 +49,7 @@ export default function BookingPage() {
             <aside className="space-y-6">
               <div className="panel-lift rounded-2xl p-6">
                 <h3 className="flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-electric">
-                  <span className="text-gradient-blue">{"//"}</span> Why book online?
+                  Why book online?
                 </h3>
                 <ul className="mt-5 space-y-3">
                   {[
@@ -68,7 +68,7 @@ export default function BookingPage() {
 
               <div className="panel-lift rounded-2xl p-6">
                 <h3 className="flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-electric">
-                  <span className="text-gradient-blue">{"//"}</span> Starting prices
+                  Starting prices
                 </h3>
                 <ul className="mt-5 space-y-3">
                   {services.map((s) => (

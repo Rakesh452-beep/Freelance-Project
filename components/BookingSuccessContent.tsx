@@ -37,7 +37,7 @@ export default function BookingSuccessContent({
       >
         <p className="mt-9 flex items-center justify-center gap-3 font-mono text-[11px] font-bold uppercase tracking-[0.26em] text-electric">
           <span className="h-1.5 w-1.5 rounded-full bg-teal blink" />
-          {"// Booking log"}
+          {"Booking log"}
         </p>
         <h1 className="mt-4 font-display text-5xl font-extrabold leading-[1.05] tracking-tight text-ice sm:text-6xl">
           Booking <span className="text-gradient-blue">received!</span>
