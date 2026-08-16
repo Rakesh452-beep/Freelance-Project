@@ -52,6 +52,24 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <div className="grain-overlay" aria-hidden="true" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ProfessionalService",
+              name: "Dhanunjay Three Lenses Studio",
+              description:
+                "Professional photography, cinematography and graphic design studio by Dhanunjay. Weddings, brand films and creative design.",
+              url: "https://dhananjayproject-rho.vercel.app",
+              foundingDate: "2024",
+              founder: { "@type": "Person", name: "Dhanunjay" },
+              priceRange: "₹₹",
+              address: { "@type": "PostalAddress", addressCountry: "IN" },
+              knowsAbout: ["Photography", "Cinematography", "Graphic Design"],
+            }),
+          }}
+        />
         <AdminShortcut />
         {children}
       </body>
