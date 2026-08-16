@@ -107,25 +107,25 @@ export const services: Service[] = [
     name: "Graphic Designing",
     tagline: "Design that speaks for you",
     description:
-      "Social media posts, posters, flyers, and banners — from ₹100 per post. Whole-event design quoted after a quick discussion.",
+      "Social media posts, posters, flyers, and banners — from ₹500 per post. Whole-event design quoted after a quick discussion.",
     features: [
-      "Per post — ₹100 to ₹1,000",
+      "Per post — ₹500",
       "Posters, flyers & banners",
       "Full-event design — by quote",
       "Invitations & social creatives",
       "Revisions until you love it",
     ],
-    priceFrom: 100,
-    priceNote: "Per post ₹100–₹1,000 · full-event posters/flyers/banners by quote",
+    priceFrom: 500,
+    priceNote: "Per post ₹500 · full-event posters/flyers/banners by quote",
     depositPct: 50,
     duration: "Per project",
     eventTypes: [
       {
         id: "per-post",
-        label: "Per post (₹100–₹1,000)",
-        priceFrom: 100,
-        advance: 200,
-        note: "₹100–₹1,000 per post",
+        label: "Per post (₹500)",
+        priceFrom: 500,
+        advance: 250,
+        note: "₹500 per post",
       },
       {
         id: "full-event",

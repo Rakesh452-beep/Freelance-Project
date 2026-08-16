@@ -17,13 +17,37 @@ export default function Navbar() {
   const [activeHref, setActiveHref] = useState("/#intro");
 
   useEffect(() => {
-    const update = () => {
+    const ids = navItems
+      .map((item) => item.href.split("#")[1])
+      .filter(Boolean) as string[];
+
+    const setFromHash = () => {
       const hash = window.location.hash || "#intro";
       setActiveHref(`${window.location.pathname}${hash}`);
     };
-    update();
-    window.addEventListener("hashchange", update);
-    return () => window.removeEventListener("hashchange", update);
+
+    const onScroll = () => {
+      const probe = window.scrollY + window.innerHeight * 0.35;
+      let current = ids[0];
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY;
+          if (top <= probe) current = id;
+        }
+      }
+      setActiveHref(`/#${current}`);
+    };
+
+    setFromHash();
+    onScroll();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("hashchange", setFromHash);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("hashchange", setFromHash);
+    };
   }, []);
 
   return (

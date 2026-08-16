@@ -23,7 +23,6 @@ interface SubmitResult {
 type SuccessMode = "free" | "quote" | "paid";
 
 const timeSlots = [
-  "7:00 AM",
   "9:00 AM",
   "11:00 AM",
   "1:00 PM",
@@ -32,6 +31,15 @@ const timeSlots = [
   "7:00 PM",
   "9:00 PM",
 ];
+
+function addDays(dateStr: string, days: number): string {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const date = new Date(y, m - 1, d);
+  date.setDate(date.getDate() + days);
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const dd = String(date.getDate()).padStart(2, "0");
+  return `${date.getFullYear()}-${mm}-${dd}`;
+}
 
 export default function BookingForm() {
   const router = useRouter();
@@ -53,6 +61,7 @@ export default function BookingForm() {
     client_phone: "",
     event_date: "",
     event_time: "",
+    delivery_date: "",
     location: "",
     notes: "",
   });
@@ -133,9 +142,16 @@ export default function BookingForm() {
       client_email: form.client_email,
       client_phone: form.client_phone,
       event_date: form.event_date,
-      event_time: form.event_time,
+      event_time: service === "graphic-design" ? "Anytime" : form.event_time,
       location: form.location,
-      notes: form.notes,
+      notes: [
+        form.notes.trim(),
+        service === "graphic-design" && form.delivery_date
+          ? `Delivery date: ${form.delivery_date}`
+          : null,
+      ]
+        .filter(Boolean)
+        .join("\n") || undefined,
       payNow,
     };
 
@@ -222,12 +238,20 @@ export default function BookingForm() {
       <div>
         <h2 className={stepTitleClass}>
           <span className={stepBadgeClass}>2</span>
-          <CalendarIcon className="h-4 w-4 text-electric" /> Date &amp; time
+          {service === "graphic-design" ? (
+            <>
+              <CalendarIcon className="h-4 w-4 text-electric" /> Date &amp; delivery
+            </>
+          ) : (
+            <>
+              <ClockIcon className="h-4 w-4 text-electric" /> Date &amp; time
+            </>
+          )}
         </h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <div>
             <label htmlFor="b-date" className={labelClass}>
-              Event date *
+              {service === "graphic-design" ? "Start date *" : "Event date *"}
             </label>
             <input
               id="b-date"
@@ -235,34 +259,65 @@ export default function BookingForm() {
               required
               min={today}
               value={form.event_date}
-              onChange={(e) => update("event_date", e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                update("event_date", value);
+                if (service === "graphic-design") {
+                  update("delivery_date", value ? addDays(value, 3) : "");
+                }
+              }}
               className={inputClass}
             />
+            {service === "graphic-design" ? (
+              <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-ice-faint">
+                We deliver 2–3 days after this date
+              </p>
+            ) : null}
           </div>
-          <div>
-            <label htmlFor="b-time" className={labelClass}>
-              Preferred time *
-            </label>
-            <div className="flex items-center gap-2">
-              <ClockIcon className="h-4 w-4 shrink-0 text-electric" />
-              <select
-                id="b-time"
+          {service === "graphic-design" ? (
+            <div>
+              <label htmlFor="b-delivery" className={labelClass}>
+                Delivery date *
+              </label>
+              <input
+                id="b-delivery"
+                type="date"
                 required
-                value={form.event_time}
-                onChange={(e) => update("event_time", e.target.value)}
+                min={form.event_date ? addDays(form.event_date, 2) : today}
+                value={form.delivery_date}
+                onChange={(e) => update("delivery_date", e.target.value)}
                 className={inputClass}
-              >
-                <option value="" disabled>
-                  Select a slot
-                </option>
-                {timeSlots.map((slot) => (
-                  <option key={slot} value={slot}>
-                    {slot}
-                  </option>
-                ))}
-              </select>
+              />
+              <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-ice-faint">
+                Earliest delivery is 2 days out — auto-set to 3
+              </p>
             </div>
-          </div>
+          ) : (
+            <div>
+              <label htmlFor="b-time" className={labelClass}>
+                Preferred time *
+              </label>
+              <div className="flex items-center gap-2">
+                <ClockIcon className="h-4 w-4 shrink-0 text-electric" />
+                <select
+                  id="b-time"
+                  required
+                  value={form.event_time}
+                  onChange={(e) => update("event_time", e.target.value)}
+                  className={inputClass}
+                >
+                  <option value="" disabled>
+                    Select a slot
+                  </option>
+                  {timeSlots.map((slot) => (
+                    <option key={slot} value={slot}>
+                      {slot}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

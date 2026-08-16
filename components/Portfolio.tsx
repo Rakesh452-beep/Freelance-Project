@@ -8,7 +8,7 @@ const INSTAGRAM_URL =
 
 const galleryItems = [
   { image: "/work-1.jpg", label: "Event" },
-  { image: "/work-2.jpg", label: "Cinematic" },
+  { image: "/work-2.jpg", label: "Creative Art" },
   { image: "/architecture-shot.jpg", label: "Architecture shot" },
   { image: "/animal-shot.jpg", label: "Animal shot" },
   { image: "/portrait-shot.jpg", label: "Portrait shot" },
