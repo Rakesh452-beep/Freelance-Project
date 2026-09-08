@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Outfit, Space_Mono } from "next/font/google";
 import AdminShortcut from "@/components/AdminShortcut";
+import SignOutButton from "@/components/SignOutButton";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -71,6 +72,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           }}
         />
         <AdminShortcut />
+        <SignOutButton />
         {children}
       </body>
     </html>
