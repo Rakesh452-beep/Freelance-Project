@@ -49,12 +49,6 @@ export default function CtaBanner() {
               Book Your Date
               <ArrowRightIcon className="h-4 w-4" />
             </Link>
-            <a
-              href={`tel:${studioConfig.phone.replace(/\s/g, "")}`}
-              className="glass-blue inline-flex items-center gap-2 rounded-full px-9 py-4 font-mono text-xs font-bold uppercase tracking-[0.18em] text-ice transition-colors hover:border-electric/50 hover:text-electric"
-            >
-              Call us
-            </a>
           </div>
         </motion.div>
       </div>

@@ -9,7 +9,6 @@ import {
   CheckIcon,
   ClockIcon,
   MailIcon,
-  PhoneIcon,
 } from "@/components/icons";
 
 interface ContactFormData {
@@ -25,12 +24,6 @@ const channels = [
     display: studioConfig.email,
     href: gmailComposeUrl(studioConfig.email),
     icon: MailIcon,
-  },
-  {
-    label: "Call",
-    display: studioConfig.phone,
-    href: `tel:${studioConfig.phone.replace(/\s/g, "")}`,
-    icon: PhoneIcon,
   },
 ];
 

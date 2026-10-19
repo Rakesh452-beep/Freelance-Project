@@ -7,8 +7,6 @@ export const studioConfig = {
   intro:
     "I'm Dhanunjay — from weddings to brand films, I help people tell their stories through the lens — photography, cinematography, and design, all under one studio roof.",
   email: "itsdhanunjaythreelensstudio@gmail.com",
-  phone: "+91 76709 00935",
-  phoneRaw: "917670900935",
   instagram: "@its_dhanunjay.studio",
   instagramUrl: "https://www.instagram.com/its_dhanunjay.studio?igsh=dWlnaDFqeTA2NjNq",
   location: "Gitam University, Bengaluru, Nagadenahalli, Doddaballapura",
