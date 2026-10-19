@@ -57,12 +57,12 @@ export default function Navbar() {
         logo={
           <span className="flex items-center gap-3">
             <Image
-              src="/dhananjaya-logo.png"
+              src="/dhananjaya-mark.png"
               alt={studioConfig.name}
-              width={800}
-              height={297}
+              width={256}
+              height={256}
               priority
-              className="h-10 w-auto object-contain"
+              className="h-10 w-10 object-contain"
             />
             <span className="hidden flex-col leading-none lg:flex">
               <span className="font-display text-base font-bold tracking-tight text-ice">
