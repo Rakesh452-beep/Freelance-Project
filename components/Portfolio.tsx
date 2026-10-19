@@ -38,9 +38,9 @@ export default function Portfolio() {
             defaultIndex={3}
             expandRatio={0.52}
             trigger="hover"
-            accentColor="#dfe3e9"
-            overlayColor="#0b1120"
-            textColor="#dfe3e9"
+            accentColor="#69df98"
+            overlayColor="#001b13"
+            textColor="#e8f4ec"
             grayscale
             showLabels
             duration={0.6}

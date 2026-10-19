@@ -15,7 +15,7 @@ export default function CtaBanner() {
       <p
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none whitespace-nowrap text-center font-display text-[22vw] font-extrabold uppercase leading-none text-transparent opacity-25 lg:text-[15rem]"
-        style={{ WebkitTextStroke: "1px rgba(223, 223, 231, 0.14)" }}
+        style={{ WebkitTextStroke: "1px rgba(184, 238, 202, 0.14)" }}
       >
         Three Lenses
       </p>

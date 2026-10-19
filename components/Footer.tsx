@@ -96,14 +96,14 @@ export default function Footer() {
           <div className="marquee-track">
             <span
               className="inline-block whitespace-nowrap font-display text-[9vw] font-extrabold uppercase leading-none tracking-tight text-transparent lg:text-[7rem]"
-              style={{ WebkitTextStroke: "1px rgba(223, 223, 231, 0.22)" }}
+              style={{ WebkitTextStroke: "1px rgba(184, 238, 202, 0.22)" }}
             >
               Dhanunjay Three Lenses
             </span>
             <span
               aria-hidden="true"
               className="inline-block whitespace-nowrap font-display text-[9vw] font-extrabold uppercase leading-none tracking-tight text-transparent lg:text-[7rem]"
-              style={{ WebkitTextStroke: "1px rgba(223, 223, 231, 0.22)" }}
+              style={{ WebkitTextStroke: "1px rgba(184, 238, 202, 0.22)" }}
             >
               Dhanunjay Three Lenses
             </span>

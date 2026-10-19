@@ -54,8 +54,8 @@ export default function Hero({ stats }: { stats: HeroStats }) {
           >
             <StrokeText
               text="It&#x27;s Dhanunjay&#10;Three Lenses&#10;Studio"
-              strokeColor="#8b93a7"
-              fillColor="#eef1f6"
+              strokeColor="#96d9ad"
+              fillColor="#effff4"
               strokeWidth={1.2}
               drawDuration={1.8}
               fillDelay={0.35}
@@ -153,7 +153,7 @@ export default function Hero({ stats }: { stats: HeroStats }) {
                   width={900}
                   height={1125}
                   priority
-                  className="relative h-auto w-full object-contain drop-shadow-[0_0_24px_rgba(223,223,231,0.35)]"
+                  className="relative h-auto w-full object-contain drop-shadow-[0_0_24px_rgba(105,223,152,0.35)]"
                 />
               </div>
             </div>

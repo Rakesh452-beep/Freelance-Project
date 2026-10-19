@@ -33,8 +33,8 @@ interface StrokeTextProps {
 
 const StrokeText = ({
   text = DEFAULT_TEXT,
-  strokeColor = "#A78BFA",
-  fillColor = "#F8FAFC",
+  strokeColor = "#96d9ad",
+  fillColor = "#effff4",
   strokeWidth = 1.4,
   drawDuration = 1.6,
   fillDelay = 0.2,

@@ -79,10 +79,10 @@ export default function Navbar() {
         logoAlt={studioConfig.name}
         items={navItems}
         activeHref={activeHref}
-        baseColor="#0e1e37"
-        pillColor="#dfe3e9"
-        hoveredPillTextColor="#0e1e37"
-        pillTextColor="#dfe3e9"
+        baseColor="#003a29"
+        pillColor="#c8f5d8"
+        hoveredPillTextColor="#003a29"
+        pillTextColor="#e8f4ec"
       />
     </header>
   );

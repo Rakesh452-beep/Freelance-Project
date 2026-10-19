@@ -1,6 +1,6 @@
 .accordion-gallery {
-  --ag-accent: #ffffff;
-  --ag-overlay: #060010;
+  --ag-accent: #69df98;
+  --ag-overlay: #001b13;
   --ag-text: #ffffff;
   --ag-gap: 10px;
   --ag-radius: 16px;
@@ -32,7 +32,7 @@
   outline: none;
   transform-style: preserve-3d;
   transform-origin: center center;
-  background: #0a0713;
+  background: #003523;
   box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.8);
   will-change: flex-grow, transform;
   -webkit-tap-highlight-color: transparent;
