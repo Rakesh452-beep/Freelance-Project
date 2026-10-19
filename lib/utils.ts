@@ -10,17 +10,6 @@ export function gmailComposeUrl(to: string): string {
   return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}`;
 }
 
-export const FREE_TRIAL_WINDOW = { start: "2026-08-16", end: "2026-10-31" };
-
-export function freeTrialActive(now: Date = new Date()): boolean {
-  const localDate = new Date(
-    now.getTime() - now.getTimezoneOffset() * 60000
-  )
-    .toISOString()
-    .slice(0, 10);
-  return localDate >= FREE_TRIAL_WINDOW.start && localDate <= FREE_TRIAL_WINDOW.end;
-}
-
 export function generateBookingRef(): string {
   const ts = Date.now().toString(36).toUpperCase().slice(-5);
   const rand = Math.random().toString(36).toUpperCase().slice(2, 5);

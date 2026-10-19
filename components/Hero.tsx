@@ -2,7 +2,6 @@
 
 import { Fragment, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import { studioConfig } from "@/lib/config";
 import { CameraIcon, ChevronDownIcon } from "@/components/icons";
@@ -24,9 +23,6 @@ export default function Hero({ stats }: { stats: HeroStats }) {
     offset: ["start start", "end start"],
   });
 
-  const imageY = useTransform(scrollYProgress, [0, 1], [0, -180]);
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.18]);
-  const imageOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0.25]);
   const contentY = useTransform(scrollYProgress, [0, 1], [0, 70]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0.35]);
 
@@ -43,9 +39,9 @@ export default function Hero({ stats }: { stats: HeroStats }) {
 
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
-        className="relative z-10 mx-auto grid w-full max-w-6xl flex-1 items-center gap-16 px-5 py-24 lg:grid-cols-2 lg:py-20"
+        className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 items-center px-5 py-24 lg:py-20"
       >
-        <div>
+        <div className="w-full max-w-4xl">
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -130,44 +126,6 @@ export default function Hero({ stats }: { stats: HeroStats }) {
           </motion.div>
         </div>
 
-        <motion.div
-          style={{ y: imageY, scale: imageScale, opacity: imageOpacity }}
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.2 }}
-          className="relative mx-auto w-full max-w-md"
-        >
-          <motion.div
-            animate={{ y: [0, -14, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="relative w-full"
-          >
-            <div className="spotlight pointer-events-none absolute -inset-12" />
-            <div className="relative w-full overflow-hidden rounded-3xl bg-gradient-to-br from-electric/50 via-cobalt/35 to-teal/50 p-px">
-              <div className="relative overflow-hidden rounded-3xl bg-black">
-                <div className="grid-fine pointer-events-none absolute inset-0 opacity-50" />
-                <div className="pointer-events-none absolute -inset-10 rounded-full bg-electric/10 blur-3xl" />
-                <Image
-                  src="/dhananjaya-studio.png"
-                  alt={`${studioConfig.name} — Photography · Cinematography · Graphic Design`}
-                  width={900}
-                  height={1125}
-                  priority
-                  className="relative h-auto w-full object-contain drop-shadow-[0_0_24px_rgba(105,223,152,0.35)]"
-                />
-              </div>
-            </div>
-
-            <div className="panel-lift absolute -bottom-5 -left-5 rounded-2xl px-6 py-4 glow-blue-sm backdrop-blur-md">
-              <p className="font-mono text-[9px] font-bold uppercase tracking-[0.22em] text-ice-faint">
-                Founder
-              </p>
-              <p className="mt-1 font-display text-2xl font-extrabold">
-                <span className="uppercase text-blood-deep">{studioConfig.founder}</span>
-              </p>
-            </div>
-          </motion.div>
-        </motion.div>
       </motion.div>
     </section>
   );

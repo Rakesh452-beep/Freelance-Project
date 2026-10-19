@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { getAdminClient } from "@/lib/supabase";
 import { services, studioConfig } from "@/lib/config";
-import { buildUpiIntentUri, freeTrialActive, generateBookingRef } from "@/lib/utils";
+import { buildUpiIntentUri, generateBookingRef } from "@/lib/utils";
 import { sendBookingAlert, sendBookingConfirmation } from "@/lib/email";
 import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 import type { BookingPayload, Booking, BookingStatus } from "@/lib/types";
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const { service, event_type_id, client_name, client_email, client_phone, event_date, event_time, location, notes, payNow } = payload;
+  const { service, event_type_id, client_name, client_email, client_phone, event_date, event_time, location, notes } = payload;
 
   if (!service || !event_type_id || !client_name || !client_email || !client_phone || !event_date || !event_time || !location) {
     return Response.json({ error: "All required fields must be filled." }, { status: 400 });
@@ -84,28 +84,9 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const { count, error: countError } = await supabase
-    .from("bookings")
-    .select("id", { count: "exact", head: true })
-    .eq("client_email", client_email.trim().toLowerCase());
-
-  if (countError) {
-    console.error("Booking eligibility check failed:", countError);
-    return Response.json({ error: "Could not verify booking eligibility. Please try again." }, { status: 500 });
-  }
-
-  const freeTrial = freeTrialActive() && (count ?? 0) === 0;
-
-  const amount = freeTrial ? 0 : eventType.priceFrom;
-  const advanceAmount = freeTrial
-    ? 0
-    : !eventType.quoteOnly && payNow
-      ? eventType.advance
-      : 0;
-  const freeTrialNote = freeTrial
-    ? "FREE TRIAL — Aug–Oct launch offer (first booking free)"
-    : null;
-  const quoteNote = !freeTrial && eventType.quoteOnly
+  const amount = eventType.priceFrom;
+  const advanceAmount = eventType.quoteOnly ? 0 : eventType.advance;
+  const quoteNote = eventType.quoteOnly
     ? "Full-event design — pricing by discussion/contact"
     : null;
 
@@ -122,12 +103,12 @@ export async function POST(request: NextRequest) {
       event_time,
       location,
       notes: (() => {
-        const parts = [notes?.trim(), freeTrialNote, quoteNote].filter(Boolean);
+        const parts = [notes?.trim(), quoteNote].filter(Boolean);
         return parts.length ? parts.join(" | ") : null;
       })(),
       amount,
       advance_amount: advanceAmount,
-      payment_status: freeTrial ? "paid" : "pending",
+      payment_status: "pending",
       booking_status: "new",
     })
     .select()
@@ -149,7 +130,8 @@ export async function POST(request: NextRequest) {
     sendBookingAlert(booking),
   ]);
 
-  const upiUri = payNow
+  const payOnline = !eventType.quoteOnly;
+  const upiUri = payOnline
     ? buildUpiIntentUri({
         pa: studioConfig.upiId,
         pn: studioConfig.upiName,
@@ -161,7 +143,7 @@ export async function POST(request: NextRequest) {
   return Response.json({
     booking,
     bookingRef: booking.booking_ref,
-    payNow: Boolean(payNow),
+    payNow: payOnline,
     payment: upiUri
       ? {
           upiUri,

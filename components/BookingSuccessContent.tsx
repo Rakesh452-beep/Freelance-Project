@@ -10,7 +10,7 @@ interface BookingSuccessContentProps {
   bookingRef: string | null;
   advanceAmount: number;
   payOnline: boolean;
-  successMode?: "free" | "quote" | "paid";
+  successMode?: "quote" | "paid";
 }
 
 export default function BookingSuccessContent({
@@ -43,13 +43,11 @@ export default function BookingSuccessContent({
           Booking <span className="text-gradient-blue">received!</span>
         </h1>
         <p className="mx-auto mt-5 max-w-md text-base leading-relaxed text-ice-soft">
-          {successMode === "free"
-            ? "Your booking is saved and completely FREE — no payment needed. We'll reach out shortly to confirm your slot."
-            : successMode === "quote"
-              ? "Your booking is saved. We'll contact you to discuss pricing for your posters / flyers / banners — no online payment needed."
-              : payOnline
-                ? `Your booking is saved. Pay your advance of ${formatINR(advanceAmount)} to secure the date — the studio confirms once the payment reflects.`
-                : "Your booking is saved. We'll reach out shortly to confirm your slot and settle the advance payment."}
+          {successMode === "quote"
+            ? "Your booking is saved. We'll contact you to discuss pricing for your posters / flyers / banners — no online payment needed."
+            : payOnline
+              ? `Your booking is saved. Pay your advance of ${formatINR(advanceAmount)} to secure the date — the studio confirms once the payment reflects.`
+              : "Your booking is saved. We'll reach out shortly to confirm your slot and settle the advance payment."}
         </p>
       </motion.div>
 

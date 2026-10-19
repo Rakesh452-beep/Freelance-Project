@@ -4,8 +4,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookingForm from "@/components/BookingForm";
 import { services, studioConfig } from "@/lib/config";
-import { formatINR, freeTrialActive } from "@/lib/utils";
-import { CameraIcon, CheckIcon, SparklesIcon } from "@/components/icons";
+import { formatINR } from "@/lib/utils";
+import { CameraIcon, CheckIcon } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "Book a Shoot | Dhanunjay Three Lenses Studio",
@@ -92,20 +92,6 @@ export default function BookingPage() {
                 </p>
               </div>
 
-              {freeTrialActive() ? (
-                <div className="relative overflow-hidden rounded-2xl border border-teal/50 bg-gradient-to-br from-teal/15 via-panel/70 to-royal/15 p-6 backdrop-blur-sm">
-                  <div className="pointer-events-none absolute -right-14 -top-14 h-36 w-36 rounded-full bg-blue-gradient opacity-20 blur-3xl" />
-                  <h3 className="flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-teal">
-                    <SparklesIcon className="h-4 w-4" />
-                    FREE TRIAL · Aug 16 – Oct 31
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-ice-soft">
-                    Your <span className="font-bold text-ice">first booking is completely
-                    free</span> — no advance, no payment. From November, bookings are
-                    charged at the regular rates. Already booked once? Regular rates apply.
-                  </p>
-                </div>
-              ) : null}
             </aside>
           </div>
         </div>

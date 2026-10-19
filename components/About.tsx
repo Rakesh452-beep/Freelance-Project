@@ -1,7 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Image from "next/image";
 import SectionHeading from "@/components/SectionHeading";
 import CountUp from "@/components/CountUp";
 import { studioConfig } from "@/lib/config";
@@ -35,67 +33,29 @@ export default function About({ stats }: { stats: AboutStats }) {
           description="A creative who treats every client's story as his own."
         />
 
-        <div className="mt-16 grid items-center gap-16 lg:grid-cols-2">
-          <div>
-            <p className="flex items-center gap-3 font-mono text-[11px] font-bold uppercase tracking-[0.26em] text-electric">
-              About me
-            </p>
-            <h3 className="mt-5 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-ice sm:text-5xl">
-              Hi, I&apos;m{" "}
-              <span className="uppercase text-blood-deep">{studioConfig.founder}</span>
-            </h3>
-            <p className="mt-7 font-display text-xl font-medium leading-relaxed text-ice">
-              I run <span className="text-gradient-blue">{studioConfig.name}</span> — the hands
-              behind every frame, every cut, every pixel.
-            </p>
-            <p className="mt-6 text-base leading-relaxed text-ice-soft">
-              {studioConfig.intro}
-            </p>
+        <div className="mt-16 max-w-4xl">
+          <p className="flex items-center gap-3 font-mono text-[11px] font-bold uppercase tracking-[0.26em] text-electric">
+            About me
+          </p>
+          <h3 className="mt-5 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-ice sm:text-5xl">
+            Hi, I&apos;m{" "}
+            <span className="uppercase text-blood-deep">{studioConfig.founder}</span>
+          </h3>
+          <p className="mt-7 font-display text-xl font-medium leading-relaxed text-ice">
+            I run <span className="text-gradient-blue">{studioConfig.name}</span> — the hands
+            behind every frame, every cut, every pixel.
+          </p>
+          <p className="mt-6 text-base leading-relaxed text-ice-soft">
+            {studioConfig.intro}
+          </p>
 
-            <a
-              href="#contact"
-              className="mt-10 inline-flex items-center gap-2 rounded-full bg-blue-gradient px-8 py-4 font-mono text-xs font-bold uppercase tracking-[0.18em] text-abyss glow-blue transition-all hover:-translate-y-0.5"
-            >
-              Work with me
-              <ArrowRightIcon className="h-4 w-4" />
-            </a>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7 }}
-            className="relative mx-auto w-full max-w-sm"
+          <a
+            href="#contact"
+            className="mt-10 inline-flex items-center gap-2 rounded-full bg-blue-gradient px-8 py-4 font-mono text-xs font-bold uppercase tracking-[0.18em] text-abyss glow-blue transition-all hover:-translate-y-0.5"
           >
-            <div className="spotlight pointer-events-none absolute -inset-10" />
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-electric/50 via-cobalt/35 to-teal/50 p-px">
-              <div className="relative overflow-hidden rounded-3xl bg-black">
-                <div className="grid-fine pointer-events-none absolute inset-0 opacity-50" />
-                <div className="pointer-events-none absolute -inset-10 rounded-full bg-electric/10 blur-3xl" />
-                <Image
-                  src="/dhananjaya-studio-about.png"
-                  alt={`${studioConfig.name} — brand mark`}
-                  width={900}
-                  height={1125}
-                  className="relative h-auto w-full object-contain drop-shadow-[0_0_24px_rgba(223,223,231,0.3)]"
-                />
-              </div>
-            </div>
-
-            <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="panel-lift absolute -bottom-5 -left-5 rounded-2xl px-6 py-4 glow-blue-sm backdrop-blur-md"
-            >
-              <p className="font-mono text-[9px] font-bold uppercase tracking-[0.22em] text-ice-faint">
-                Est. 2024 · India
-              </p>
-              <p className="mt-1 font-display text-2xl font-extrabold">
-                <span className="uppercase text-blood-deep">{studioConfig.founder}</span>
-              </p>
-            </motion.div>
-          </motion.div>
+            Work with me
+            <ArrowRightIcon className="h-4 w-4" />
+          </a>
         </div>
 
         <div className="mt-20 grid grid-cols-2 border-t border-l border-hairline lg:grid-cols-4">

@@ -78,12 +78,8 @@ async function send(opts: {
   }
 }
 
-function isFreeTrialBooking(booking: Booking): boolean {
-  return Boolean(booking.notes?.includes("FREE TRIAL"));
-}
-
 function isQuoteBooking(booking: Booking): boolean {
-  return booking.amount === 0 && !isFreeTrialBooking(booking);
+  return booking.amount === 0;
 }
 
 function bookingRows(booking: Booking): string {
@@ -92,11 +88,9 @@ function bookingRows(booking: Booking): string {
     <p>Event: ${escapeHtml(booking.event_type)} · ${escapeHtml(booking.event_date)} at ${escapeHtml(booking.event_time)}</p>
     <p>Location: ${escapeHtml(booking.location)}</p>
     <p>${
-      isFreeTrialBooking(booking)
-        ? "Amount: <strong>FREE</strong> (Aug–Oct launch offer — no payment needed)"
-        : isQuoteBooking(booking)
-          ? "Amount: <strong>By quote</strong> — pricing discussed via contact"
-          : `Amount: ${formatINR(booking.amount)} · Advance: ${formatINR(booking.advance_amount)}`
+      isQuoteBooking(booking)
+        ? "Amount: <strong>By quote</strong> — pricing discussed via contact"
+        : `Amount: ${formatINR(booking.amount)} · Advance: ${formatINR(booking.advance_amount)}`
     }</p>
     ${booking.notes ? `<p>Notes: ${escapeHtml(booking.notes)}</p>` : ""}
   `;
@@ -115,9 +109,7 @@ export async function sendBookingConfirmation(booking: Booking): Promise<void> {
         ${
           booking.advance_amount > 0
             ? `<p>Advance due: <strong>${formatINR(booking.advance_amount)}</strong> via UPI — scan the QR on your booking page to pay. We'll confirm once it reflects.</p>`
-            : isFreeTrialBooking(booking)
-              ? `<p>This booking is <strong>FREE</strong> — no advance needed. Enjoy the offer!</p>`
-              : isQuoteBooking(booking)
+            : isQuoteBooking(booking)
                 ? `<p>We'll contact you shortly to discuss pricing for your posters / flyers / banners.</p>`
                 : `<p>We'll reach out shortly to confirm your slot and settle the advance.</p>`
         }
@@ -157,9 +149,7 @@ export async function sendBookingConfirmedEmail(booking: Booking): Promise<void>
         ${
           booking.advance_amount > 0
             ? `<p>Advance amount: <strong>${formatINR(booking.advance_amount)}</strong> — if you haven't paid yet, open your booking page and scan the QR to pay via UPI.</p>`
-            : isFreeTrialBooking(booking)
-              ? `<p>This booking is <strong>FREE</strong> — nothing to pay. Enjoy the offer!</p>`
-              : isQuoteBooking(booking)
+            : isQuoteBooking(booking)
                 ? `<p>Pricing for your posters / flyers / banners will be shared after we discuss your event.</p>`
                 : ""
         }

@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useMemo, useState, type FormEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { services } from "@/lib/config";
-import { formatINR, freeTrialActive } from "@/lib/utils";
+import { formatINR } from "@/lib/utils";
 import type { BookingPayload, ServiceId } from "@/lib/types";
 import {
   ArrowRightIcon,
@@ -17,10 +17,10 @@ import {
 interface SubmitResult {
   bookingRef: string;
   payNow: boolean;
-  booking: { advance_amount: number; amount: number };
+  booking: { advance_amount: number };
 }
 
-type SuccessMode = "free" | "quote" | "paid";
+type SuccessMode = "quote" | "paid";
 
 const timeSlots = [
   "9:00 AM",
@@ -65,12 +65,8 @@ export default function BookingForm() {
     location: "",
     notes: "",
   });
-  const [payNow, setPayNow] = useState<boolean>(true);
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const [error, setError] = useState("");
-  const [eligibleForFree, setEligibleForFree] = useState<boolean | null>(null);
-
-  const trialActive = freeTrialActive();
 
   const activeService = useMemo(
     () => services.find((s) => s.id === service)!,
@@ -84,17 +80,10 @@ export default function BookingForm() {
     [activeService, eventTypeId]
   );
 
-  const isFree = trialActive && eligibleForFree === true;
-
-  const checkingEligibility =
-    trialActive && form.client_email.trim() !== "" && eligibleForFree === null;
-
   const today = new Date().toISOString().split("T")[0];
-  const depositAmount = isFree
+  const depositAmount = activeEventType?.quoteOnly
     ? 0
-    : activeEventType?.quoteOnly
-      ? 0
-      : activeEventType?.advance ?? 0;
+    : activeEventType?.advance ?? 0;
 
   function selectService(id: ServiceId) {
     setService(id);
@@ -105,29 +94,6 @@ export default function BookingForm() {
   function update(field: keyof typeof form, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
-
-  useEffect(() => {
-    if (!trialActive) return;
-    const email = form.client_email.trim().toLowerCase();
-    if (!email) return;
-    const controller = new AbortController();
-    const timeout = setTimeout(async () => {
-      try {
-        const res = await fetch(
-          `/api/booking/eligibility?email=${encodeURIComponent(email)}`,
-          { signal: controller.signal }
-        );
-        const data = await res.json();
-        setEligibleForFree(Boolean(data.free));
-      } catch {
-        setEligibleForFree(false);
-      }
-    }, 400);
-    return () => {
-      clearTimeout(timeout);
-      controller.abort();
-    };
-  }, [form.client_email, trialActive]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -152,7 +118,6 @@ export default function BookingForm() {
       ]
         .filter(Boolean)
         .join("\n") || undefined,
-      payNow,
     };
 
     try {
@@ -166,12 +131,7 @@ export default function BookingForm() {
 
       const result = data as SubmitResult;
       const actualAdvance = result.booking?.advance_amount ?? depositAmount;
-      const serverFree = result.booking?.amount === 0;
-      const mode: SuccessMode = serverFree
-        ? "free"
-        : activeEventType.quoteOnly
-          ? "quote"
-          : "paid";
+      const mode: SuccessMode = activeEventType.quoteOnly ? "quote" : "paid";
 
       router.push(
         `/booking/success?ref=${encodeURIComponent(result.bookingRef)}&pay=${result.payNow ? "1" : "0"}&amount=${actualAdvance}&mode=${mode}`
@@ -197,7 +157,7 @@ export default function BookingForm() {
   const optionClass = (selected: boolean) =>
     `rounded-xl border p-4 text-left transition-all ${
       selected
-        ? "border-electric/60 bg-blue-gradient/10 shadow-[0_0_0_3px_rgba(223,223,231,0.15)]"
+        ? "border-electric/60 bg-blue-gradient/10 shadow-[0_0_0_3px_rgba(105,223,152,0.15)]"
         : "border-hairline bg-abyss/60 hover:border-electric/40"
     }`;
 
@@ -349,10 +309,7 @@ export default function BookingForm() {
               type="email"
               required
               value={form.client_email}
-              onChange={(e) => {
-                update("client_email", e.target.value);
-                if (trialActive) setEligibleForFree(null);
-              }}
+              onChange={(e) => update("client_email", e.target.value)}
               placeholder="you@example.com"
               className={inputClass}
             />
@@ -427,22 +384,7 @@ export default function BookingForm() {
           <span className={stepBadgeClass}>4</span>
           Payment
         </h2>
-        {isFree ? (
-          <div className="mt-4 overflow-hidden rounded-2xl border border-teal/50 bg-gradient-to-br from-teal/15 via-panel/70 to-royal/15 p-6">
-            <p className="flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-teal">
-              <SparklesIcon className="h-4 w-4" />
-              FREE TRIAL — your first booking is FREE
-            </p>
-            <p className="mt-3 text-sm leading-relaxed text-ice-soft">
-              August–October launch offer: this booking costs{" "}
-              <span className="font-bold text-ice">nothing</span>. No advance, no payment
-              needed. Repeat bookings are charged at the regular rates.
-            </p>
-            <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-teal/15 px-4 py-2 font-mono text-xs font-bold text-teal">
-              {formatINR(0)} · Nothing to pay
-            </p>
-          </div>
-        ) : activeEventType.quoteOnly ? (
+        {activeEventType.quoteOnly ? (
           <div className="mt-4 overflow-hidden rounded-2xl border border-electric/40 bg-gradient-to-br from-royal/15 via-panel/70 to-royal/15 p-6">
             <p className="flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-electric">
               <SparklesIcon className="h-4 w-4" />
@@ -455,43 +397,16 @@ export default function BookingForm() {
             </p>
           </div>
         ) : (
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <button
-              type="button"
-              onClick={() => setPayNow(true)}
-              className={optionClass(payNow)}
-            >
-              <p className="font-display text-xl font-bold tracking-tight text-ice">
-                Pay advance via UPI
-              </p>
-              <p className="mt-1 font-sans text-[10px] font-medium uppercase tracking-[0.2em] text-ice-faint">
-                Secure the date now — {formatINR(depositAmount)} via GPay / PhonePe / Paytm.
-              </p>
-            </button>
-            <button
-              type="button"
-              onClick={() => setPayNow(false)}
-              className={optionClass(!payNow)}
-            >
-              <p className="font-display text-xl font-bold tracking-tight text-ice">
-                Pay at the studio
-              </p>
-              <p className="mt-1 font-sans text-[10px] font-medium uppercase tracking-[0.2em] text-ice-faint">
-                No online payment — settle the advance in person.
-              </p>
-            </button>
+          <div className="mt-4 rounded-xl border border-electric/40 bg-panel/50 p-5">
+            <p className="font-display text-xl font-bold tracking-tight text-ice">
+              Advance payment via UPI required
+            </p>
+            <p className="mt-2 font-sans text-sm leading-relaxed text-ice-faint">
+              Pay the {formatINR(depositAmount)} advance to secure your date. GPay,
+              PhonePe and Paytm are supported.
+            </p>
           </div>
         )}
-        {trialActive && eligibleForFree === false ? (
-          <p className="mt-3 text-xs text-ice-faint">
-            You&apos;ve already used your free booking — regular rates apply from now on.
-          </p>
-        ) : null}
-        {trialActive && eligibleForFree === null && !checkingEligibility ? (
-          <p className="mt-3 text-xs text-ice-faint">
-            FREE TRIAL active until Oct 31 — enter your email to check your free booking.
-          </p>
-        ) : null}
       </div>
 
       {status === "error" ? (
@@ -502,20 +417,14 @@ export default function BookingForm() {
 
       <button
         type="submit"
-        disabled={status === "loading" || checkingEligibility}
+        disabled={status === "loading"}
         className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-blue-gradient px-7 py-4 font-mono text-xs font-bold uppercase tracking-[0.18em] text-abyss glow-blue transition-all hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
       >
         {status === "loading"
           ? "Booking…"
-          : checkingEligibility
-            ? "Checking eligibility…"
-            : isFree
-              ? "Confirm FREE Booking"
-              : activeEventType.quoteOnly
-                ? "Confirm Booking — we'll contact you"
-                : payNow
-                  ? `Confirm & Pay ${formatINR(depositAmount)}`
-                  : "Confirm Booking"}
+          : activeEventType.quoteOnly
+            ? "Confirm Booking — we'll contact you"
+            : `Confirm & Pay ${formatINR(depositAmount)}`}
         {status !== "loading" ? <ArrowRightIcon className="h-4 w-4" /> : null}
       </button>
     </form>

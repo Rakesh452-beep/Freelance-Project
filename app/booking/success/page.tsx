@@ -16,8 +16,7 @@ export default async function BookingSuccessPage({
   const bookingRef = typeof ref === "string" ? ref : null;
   const advanceAmount = typeof amount === "string" ? Number(amount) : 0;
   const payOnline = pay === "1";
-  const successMode =
-    mode === "free" || mode === "quote" ? mode : "paid";
+  const successMode = mode === "quote" ? mode : "paid";
 
   return (
     <>

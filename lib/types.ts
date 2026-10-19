@@ -65,5 +65,4 @@ export interface BookingPayload {
   event_time: string;
   location: string;
   notes?: string;
-  payNow: boolean;
 }

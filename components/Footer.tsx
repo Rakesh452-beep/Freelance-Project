@@ -4,7 +4,7 @@ import Link from "next/link";
 import { studioConfig } from "@/lib/config";
 import { gmailComposeUrl } from "@/lib/utils";
 import AdminLink from "@/components/AdminLink";
-import { InstagramIcon, MailIcon, MapPinIcon, PhoneIcon } from "@/components/icons";
+import { InstagramIcon, MailIcon, MapPinIcon } from "@/components/icons";
 
 export default function Footer() {
   return (
@@ -15,13 +15,13 @@ export default function Footer() {
         <div className="grid gap-14 md:grid-cols-2">
           <div>
             <Link href="/#intro" className="group flex items-center gap-3">
-              <span className="relative flex h-12 shrink-0 items-center justify-center rounded-xl bg-black px-2.5 ring-1 ring-electric/25 sm:h-14">
+              <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-black p-1.5 ring-1 ring-electric/25 sm:h-14 sm:w-14">
                 <Image
-                  src="/dhananjaya-logo.png"
+                  src="/dhananjaya-mark.png"
                   alt="Dhanunjay Three Lenses Studio"
-                  width={800}
-                  height={297}
-                  className="h-full w-auto object-contain drop-shadow-[0_0_16px_rgba(223,223,231,0.35)]"
+                  width={256}
+                  height={256}
+                  className="h-full w-full object-contain drop-shadow-[0_0_16px_rgba(105,223,152,0.35)]"
                 />
               </span>
               <span className="flex flex-col leading-none">
@@ -77,15 +77,6 @@ export default function Footer() {
                 >
                   <MailIcon className="h-4 w-4 shrink-0 text-teal transition-transform group-hover:scale-110" />
                   {studioConfig.email}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={`tel:${studioConfig.phone.replace(/\s/g, "")}`}
-                  className="group inline-flex items-center gap-3 text-sm text-ice-soft transition-colors hover:text-electric"
-                >
-                  <PhoneIcon className="h-4 w-4 shrink-0 text-teal transition-transform group-hover:scale-110" />
-                  {studioConfig.phone}
                 </a>
               </li>
             </ul>
